@@ -41,3 +41,9 @@ CREATE TABLE IF NOT EXISTS survey(
             REFERENCES respondent(n_id)
 
 );
+CREATE TABLE IF NOT EXISTS admin(
+	id INT ,
+    PASSWORD_ VARCHAR(255) NOT NULL,
+    CONSTRAINT admin_pk PRIMARY KEY (id)
+
+);
