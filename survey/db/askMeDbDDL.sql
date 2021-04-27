@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS researcher(
     CONSTRAINT pk_resp  PRIMARY KEY (researcher_id)
 
 );
-CREATE TABLE IF NOT EXISTS survey(
+/*CREATE TABLE IF NOT EXISTS survey(
     respondent_id INT NOT NULL,    
     researcher_id INT NOT NULL,
 	survey_id INT,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS survey(
     CONSTRAINT fk_respondent FOREIGN KEY(respondent_id) 
             REFERENCES respondent(n_id)
 
-);
+);*/
 CREATE TABLE IF NOT EXISTS admin(
 	id INT ,
     PASSWORD_ VARCHAR(255) NOT NULL,

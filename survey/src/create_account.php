@@ -18,8 +18,12 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
                 </script>';
 
            
-           // send back to another page
-           //header("Location: create_account.html");
+           // send  to another page
+              //     // successful login
+        //     $page= "researcher_profile.php?r_id=";
+        //     $page.= $id;
+        //    header("Location: '$page'");
+        header("Location: researcher_profile.php?r_id='$id'");
            }
 
         }

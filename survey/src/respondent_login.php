@@ -1,16 +1,16 @@
 <?php
 $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     if(isset($_REQUEST["loginBtn"])){
-        $id= $_REQUEST["r_id"];
+        $id= $_REQUEST["n_id"];
         $pass= $_REQUEST["password_"];
-        $query= "  SELECT * FROM researcher WHERE researcher_id ='$id' AND password_ = '$pass'";
+        $query= "  SELECT * FROM respondent WHERE n_id ='$id' AND password_ = '$pass'";
         $result = mysqli_query($connection, $query);
         if(mysqli_num_rows($result) == 1){
-        //     // successful login
-        //     $page= "researcher_profile.php?r_id=";
-        //     $page.= $id;
-        //    header("Location: '$page'");
-            header("Location: researcher_profile.php?r_id='$id'");
+            // successful login
+
+            echo '           <script>
+            alert("welcome");
+            </script>';
 
         }
         else{
@@ -34,6 +34,9 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
 ?>
 
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,8 +46,8 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     <title>Log In</title>
 </head>
 <body>
-    <form action ="researcher_login.php" method ="post">
-    <input type ="text" placeholder ="researcher id" name = "r_id">
+    <form action ="respondent_login.php" method ="post">
+    <input type ="text" placeholder ="n_id" name = "n_id">
     <input type = "password" placeholder ="password" name = "password_">
     <input type = "submit" name ="loginBtn">
     </form>

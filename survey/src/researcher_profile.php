@@ -1,0 +1,38 @@
+<?php
+$connection = mysqli_connect("localhost", "root", "", "ask_me_db");
+$r_id= $_REQUEST["r_id"];
+// echo "before ".$r_id;
+// echo "<br>";
+$r_id= (int) $r_id;
+// echo "after ".$r_id;
+$query = "SELECT * FROM researcher WHERE researcher_id = '$r_id'";
+$result= mysqli_query($connection , $query);
+$data= mysqli_fetch_assoc($result);
+echo $data["name"];
+echo"<br>id: ";
+echo $data["researcher_id"];
+echo"<br>company: ";
+echo $data["company"];
+echo"<br>email: ";
+echo $data["email"];
+echo"<br>balance: ";
+echo $data["balance"];
+if(isset($_REQUEST["rechargeBtn"])){
+    header("Location: recharge.php?r_id='$id'");
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>researcher profile</title>
+</head>
+<body>
+    <form action ="researcher_profile.php" mathod = "post">
+    <input type = "submit" name ="rechargeBtn" value="recharge">
+
+    </form>
+</body>
+</html>
