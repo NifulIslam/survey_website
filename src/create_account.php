@@ -7,39 +7,25 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
         $id= $_REQUEST["ida"];
         //check if the id is int
         if($name!="" && $id != "" && strlen($name)<256  && strlen($pass)>6 ) {
-            $query= "INSERT INTO researcher (researcher_id ,name, PASSWORD_) VALUES ('$id','$name' ,'$pass')";
+            $hashPass= password_hash($pass, PASSWORD_DEFAULT);
+            $query= "INSERT INTO researcher (researcher_id ,name, PASSWORD_) VALUES ('$id','$name' ,'$hashPass')";
             $result= mysqli_query($connection, $query);
            if(!$result){
                header ("Location: create_account.php?unsuccess='y'");
            }
-           else{
-                echo '           <script>
-                alert("account created");
-                </script>';
-
-           
-           // send  to another page
-              //     // successful login
-        //     $page= "researcher_profile.php?r_id=";
-        //     $page.= $id;
-        //    header("Location: '$page'");
+           else{echo '<script>alert("account created. please remember your id");</script>';
         header("Location: researcher_profile.php?r_id='$id'");
            }
 
         }
         else{
-            echo '           <script>
-            alert("invalid data")
-         </script>';
+            echo '<script>alert("invalid data");</script>';
         }
         
         
     }
-    // un successful result from server
     if(isset($_REQUEST['unsuccess'])){
-        echo '           <script>
-        alert("invalid id. already taken or not and integer")
-     </script>';
+        echo '<script>alert("id already taken");</script>';
     }
   
 

@@ -3,34 +3,16 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     if(isset($_REQUEST["loginBtn"])){
         $id= $_REQUEST["r_id"];
         $pass= $_REQUEST["password_"];
-        $query= "  SELECT * FROM researcher WHERE researcher_id ='$id' AND password_ = '$pass'";
+        $query= "  SELECT * FROM researcher WHERE researcher_id ='$id' ";
+
         $result = mysqli_query($connection, $query);
         if(mysqli_num_rows($result) == 1){
-        //     // successful login
-        //     $page= "researcher_profile.php?r_id=";
-        //     $page.= $id;
-        //    header("Location: '$page'");
-            header("Location: researcher_profile.php?r_id='$id'");
-
+            $row= mysqli_fetch_assoc( $result);
+            if(password_verify($pass,$row['PASSWORD_'])){header("Location: researcher_profile.php?r_id='$id'");}
+            else{ echo ' <script> alert("incorrect  password");</script>';}
         }
-        else{
-            
-            echo '           <script>
-            alert("incorrect username or password");
-            </script>';
-
-        }
-
-
-
-
-
+       
     }
-
-
-
-
-
 ?>
 
 
