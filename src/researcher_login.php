@@ -8,7 +8,11 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
         $result = mysqli_query($connection, $query);
         if(mysqli_num_rows($result) == 1){
             $row= mysqli_fetch_assoc( $result);
-            if(password_verify($pass,$row['PASSWORD_'])){header("Location: researcher_profile.php?r_id='$id'");}
+            if(password_verify($pass,$row['PASSWORD_'])){
+                session_start();
+                $_SESSION['r_id'] = $id;
+                $_SESSION["type"]= "researcher";
+                header("Location: researcher_profile.php");}
             else{ echo ' <script> alert("incorrect  password");</script>';}
         }
        
@@ -30,5 +34,6 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     <input type = "password" placeholder ="password" name = "password_">
     <input type = "submit" name ="loginBtn">
     </form>
+    <a href="create_account.php"> create account </a>
 </body>
 </html>

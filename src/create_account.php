@@ -4,17 +4,24 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     if(isset($_REQUEST["createBtn"])){
         $name= $_REQUEST["researcher_name"];
         $pass =$_REQUEST["researcher_pass"];
-        $id= $_REQUEST["ida"];
-        //check if the id is int
-        if($name!="" && $id != "" && strlen($name)<256  && strlen($pass)>6 ) {
+        $id= (int) $_REQUEST["ida"];
+        if($name!="" && $id != 0 && strlen($name)<256  && strlen($pass)>6 ) {
             $hashPass= password_hash($pass, PASSWORD_DEFAULT);
             $query= "INSERT INTO researcher (researcher_id ,name, PASSWORD_) VALUES ('$id','$name' ,'$hashPass')";
             $result= mysqli_query($connection, $query);
+
+            // getting the real id
+            
+
+
            if(!$result){
                header ("Location: create_account.php?unsuccess='y'");
            }
            else{echo '<script>alert("account created. please remember your id");</script>';
-        header("Location: researcher_profile.php?r_id='$id'");
+                session_start();
+                $_SESSION['r_id'] = $id;
+                $_SESSION["type"]= "researcher";
+                header("Location: researcher_profile.php");
            }
 
         }

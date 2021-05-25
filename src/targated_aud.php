@@ -1,29 +1,49 @@
 <?php
-$connection = mysqli_connect("localhost", "root", "", "ask_me_db");
-if(isset($_REQUEST['addAudBtn'])){
-    $to_reach= $_REQUEST['to_reach'];
-    if($to_reach!="" ){
-        $resp_age= $_REQUEST['resp_age'];
-        if($resp_age==""){$resp_age=null;}
+session_start();
 
-        $resp_gender= $_REQUEST['resp_gender'];
-        if($resp_gender=="NULL"){$resp_gender=null;}
+if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher"){
+    $r_id = (int) $_SESSION["r_id"];
+    $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
+    if(isset($_REQUEST['addAudBtn'])){
+        $to_reach= $_REQUEST['to_reach'];
+        if($to_reach!="" ){
+            $resp_age= $_REQUEST['resp_age'];
+            if($resp_age==""){$resp_age=null;}
 
-        $resp_social_status= $_REQUEST['resp_social_status'];
-        if($resp_social_status=="NULL"){$resp_social_status=null;}
+            $resp_gender= $_REQUEST['resp_gender'];
+            if($resp_gender=="NULL"){$resp_gender=null;}
 
-        $resp_nationality= $_REQUEST['resp_nationality'];
-        if($resp_nationality==""){$resp_nationality=null;}
+            $resp_social_status= $_REQUEST['resp_social_status'];
+            if($resp_social_status=="NULL"){$resp_social_status=null;}
 
-        $t_a_no=0;
-        $query= "SELECT * FROM targeted_audience";
-        $t_a_no= (mysqli_num_rows(mysqli_query($connection, $query))  +1);
-        $query="INSERT INTO targeted_audience (targated_aud_id , resp_age, resp_gender, resp_social_statuc, resp_nationality) VALUES ('$t_a_no', '$resp_age', '$resp_gender', '$resp_social_status', '$resp_nationality')";
-        $result =mysqli_query($connection, $query);
-        if($result){echo "added";}
+            $resp_nationality= $_REQUEST['resp_nationality'];
+            if($resp_nationality==""){$resp_nationality=null;}
+
+            
+            $query= "SELECT * FROM targeted_audience";
+            $t_a_no= (mysqli_num_rows(mysqli_query($connection, $query))  +1);
+            $query="INSERT INTO targeted_audience (targated_aud_id , resp_age, resp_gender, resp_social_statuc, resp_nationality) VALUES ('$t_a_no', '$resp_age', '$resp_gender', '$resp_social_status', '$resp_nationality')";
+            $result =mysqli_query($connection, $query);
+            if($result){
+                $query= "SELECT * FROM question_set";
+                $q_s_no= (mysqli_num_rows(mysqli_query($connection, $query))  +1);
+                $query="INSERT INTO question_set (question_set_id, researcher_id, targeted_aud_id , to_reach) VALUES ('$q_s_no', '$r_id','$t_a_no', '$to_reach')";
+                $result =mysqli_query($connection, $query);
+                if($result){
+                    echo '<script>alert("success");</script>';
+                    $_SESSION["q_s_no"]= $q_s_no;
+                    header("Location: addQuestionSet.php?t_a=yes");
+                }
+                    
+            }
+            else{echo '<script>alert("an error occured");</script>';}
+        }
+        else{echo '<script>alert("to reach cannot be empty");</script>';}
+        
     }
-    else{echo '<script>alert("to reach cannot be empty");</script>';}
-    
+}
+else{
+    header("Location: researcher_profile.php?t_a=yes");
 }
 
 
@@ -40,6 +60,7 @@ if(isset($_REQUEST['addAudBtn'])){
     <title>add Question</title>
 </head>
 <body>
+
 <form action ="targated_aud.php" method= "post">
     <input type="number" id="to_reach" name="to_reach" min="1" max="10000" placeholder= "reach">
     <input type="number" id="resp_age" name="resp_age" min="0" max="100" placeholder= "resp age">

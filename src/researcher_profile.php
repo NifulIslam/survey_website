@@ -1,30 +1,39 @@
 <?php
-$connection = mysqli_connect("localhost", "root", "", "ask_me_db");
-$r_id=  $_REQUEST["r_id"];
+session_start();
+
+if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher")
+{
+    $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
+    $r_id = (int)$_SESSION['r_id'];
+
+    
 
 
-echo "before ".$r_id;
-echo "<br>";
-$r_id= intval($r_id);
-echo "after ".$r_id ."<br><br>";
 
 
+    $query = "SELECT * FROM researcher WHERE researcher_id = '$r_id'";
+    $result= mysqli_query($connection , $query);
+    $data= mysqli_fetch_assoc($result);
+    echo $data["name"];
+    echo"<br>id: ";
+    echo $data["researcher_id"];
+    echo"<br>company: ";
+    echo $data["company"];
+    echo"<br>email: ";
+    echo $data["email"];
+    echo"<br>balance: ";
+    echo $data["balance"];
 
-
-$query = "SELECT * FROM researcher WHERE researcher_id = '$r_id'";
-$result= mysqli_query($connection , $query);
-$data= mysqli_fetch_assoc($result);
-echo $data["name"];
-echo"<br>id: ";
-echo $data["researcher_id"];
-echo"<br>company: ";
-echo $data["company"];
-echo"<br>email: ";
-echo $data["email"];
-echo"<br>balance: ";
-echo $data["balance"];
-if(isset($_REQUEST["rechargeBtn"])){
-    header("Location: recharge.php?r_id='$id'");
+    if(isset($_REQUEST["rechargeBtn"])){
+        header("Location: recharge.php?r_id='$id'");
+    }
+    if(isset($_REQUEST["logoutBtn"])){
+        header("Location: researcher_logout.php");
+    }
+}
+else{
+    
+     header("Location: researcher_login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -38,7 +47,16 @@ if(isset($_REQUEST["rechargeBtn"])){
 <body>
     <form action ="researcher_profile.php" mathod = "post">
     <input type = "submit" name ="rechargeBtn" value="recharge">
-
+    <input type = "submit" name ="logoutBtn" value="log out">
     </form>
+
+    <a href= "change_researcher_pass.php" > change password </a>
+    <br>
+    <a href= "addQuestionSet.php" > add question </a>
+    <br>
+    <a href= "edit_profile.php" > edit profile </a>
+    <br>
+    <a href= "survey_history.php" > history </a>
+
 </body>
 </html>
