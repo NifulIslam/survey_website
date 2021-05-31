@@ -1,15 +1,11 @@
-<form action="search_survey.php" method="get">
-<input type="text" name="search" placeholder="search set name" autocomplete="off">
-<input type="submit" name="btnSearch" value="search">
-</form>
-
-
 <?php
 session_start();
-if(isset($_SESSION["r_id"]) && $_SESSION["type"] == "researcher"){
+if(isset($_SESSION["r_id"]) && $_SESSION["type"] == "researcher" && isset($_REQUEST["btnSearch"])){
     $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     $r_id=$_SESSION["r_id"];
-    $query= "SELECT qs.question_set_id AS SET_NO , qsn.name AS question FROM question_set AS qs JOIN question_set_name AS qsn ON qs.question_set_id= qsn.question_set_id WHERE qs.researcher_id =$r_id";
+    $search= $_REQUEST["search"];
+    $query= "SELECT qs.question_set_id AS SET_NO , qsn.name AS question FROM question_set AS qs JOIN question_set_name AS qsn ON qs.question_set_id= qsn.question_set_id WHERE qs.researcher_id =$r_id AND qsn.name = '$search'";
+    
     $result= mysqli_query($connection, $query);
     $i=1;
     while($data= mysqli_fetch_assoc($result)){
@@ -25,12 +21,3 @@ if(isset($_SESSION["r_id"]) && $_SESSION["type"] == "researcher"){
 }
 else{ header("Location: researcher_profile.php");}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>survey history</title>
-</head>
-<body>
-</body>
-</html>

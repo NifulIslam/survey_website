@@ -10,7 +10,7 @@ if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher"){
         $result =mysqli_query($connection, $query);
         $data= mysqli_fetch_assoc($result);
         $balance= $data['balance'];
-        $money= 4*(int)$_SESSION["audience"];
+        $money= 0;
         if($balance>=$money){
             $question= $_REQUEST['question'];
 
