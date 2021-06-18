@@ -1,0 +1,3 @@
+INSERT INTO responce (respondent_id, question_id, answer)
+VALUES( 1,14,"my name is abc"),
+( 1,15,"kader furniture");
