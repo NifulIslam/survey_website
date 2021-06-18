@@ -25,7 +25,7 @@ if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher")
     echo $data["balance"];
 
     if(isset($_REQUEST["rechargeBtn"])){
-        header("Location: recharge.php?r_id='$id'");
+        header("Location: recharge.php");
     }
     if(isset($_REQUEST["logoutBtn"])){
         header("Location: researcher_logout.php");

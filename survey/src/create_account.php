@@ -4,13 +4,21 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
     if(isset($_REQUEST["createBtn"])){
         $name= $_REQUEST["researcher_name"];
         $pass =$_REQUEST["researcher_pass"];
-        $id= (int) $_REQUEST["ida"];
-        if($name!="" && $id != 0 && strlen($name)<256  && strlen($pass)>6 ) {
+        
+
+        //getting id; 
+        $query= "SELECT COUNT(*) AS num FROM researcher";
+        $result= mysqli_query($connection, $query);
+        $id_result=mysqli_fetch_assoc($result) ;
+        $id= $id_result['num']+1;
+
+
+        if($name!="" && strlen($name)<256  && strlen($pass)>6 && $pass== $_REQUEST["researcher_pass2"] ) {
             $hashPass= password_hash($pass, PASSWORD_DEFAULT);
             $query= "INSERT INTO researcher (researcher_id ,name, PASSWORD_) VALUES ('$id','$name' ,'$hashPass')";
             $result= mysqli_query($connection, $query);
 
-            // getting the real id
+            
             
 
 
@@ -32,7 +40,7 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
         
     }
     if(isset($_REQUEST['unsuccess'])){
-        echo '<script>alert("id already taken");</script>';
+        echo '<script>alert("an error occured. try again");</script>';
     }
   
 
@@ -51,9 +59,10 @@ $connection = mysqli_connect("localhost", "root", "", "ask_me_db");
 <body>
 
 <form action ="create_account.php" method ="post">
-    <input type= "text" placeholder ="id" name = "ida">
+    
     <input type = "text"  placeholder ="name"  name = "researcher_name">
     <input type= "password" placeholder = "password" name ="researcher_pass">
+    <input type= "password" placeholder = "password again" name ="researcher_pass2">
     <input type = "submit" placeholder ="create" name="createBtn">
 </form>
     

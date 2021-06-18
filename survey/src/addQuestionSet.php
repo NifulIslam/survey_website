@@ -1,8 +1,7 @@
 <?php
 if( !isset($_REQUEST["t_a"]) ){
-    header("Location: targated_aud.php"); 
+    header("Location: question_set_name.php"); 
 }
-
 
 ?>
 

@@ -10,7 +10,7 @@ if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher"){
         $result =mysqli_query($connection, $query);
         $data= mysqli_fetch_assoc($result);
         $balance= $data['balance'];
-        $money= 4*(int)$_SESSION["audience"];
+        $money= 0;
         if($balance>=$money){
             $question= $_REQUEST['question'];
 
@@ -54,10 +54,23 @@ if(isset($_SESSION['r_id']) && $_SESSION["type"] == "researcher"){
 </head>
 <body>
 <form action="add_cq.php" method= 'get'>
-    <input type= "text" name= "question" placeholder ="question" id="question">
-    <br>
-    <input type= "submit" name= "addQusBtn" value= "add">
+    <input type= "text" id='textboxid' name= "question" placeholder ="question" id="question">
+    <br><br>
+    <input type= "submit" id="btn"  name= "addQusBtn" value= "add">
     <form>
 
 </body>
 </html>
+
+<style>
+#textboxid
+{
+    height:40px;
+    font-size:24pt;
+}
+#btn
+{
+    height:30px;
+    font-size:15pt;
+}
+</style>
